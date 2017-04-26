@@ -8,6 +8,7 @@ import (
 	 _ "net/http/pprof"
 	"os"
 	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -15,7 +16,7 @@ func main() {
 		log.Println(http.ListenAndServe(":6060", nil))
 	}()
 	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, os.Interrupt)
+	signal.Notify(sc, syscall.SIGTERM)
 	go func() {
 		println(">>>>>>>>>>>>>>>>>>>>>>>>>>>Notify")
 		<-sc
